@@ -93,13 +93,13 @@ const deleteAuthor = async (req, res, next) => {
 }
 
 const uploadAuthorImage = async (req, res, next) => {
-    const { _id } = req.body
+    const { authorId } = req.body
     try {
         const imageUrl = await imageHelper.generateUrlImage(req.file)
 
-        const result = await AuthorModel.findOneAndUpdate({ _id: _id, deletedAt: null }, { imageUrl: imageUrl }, { new: true })
+        const result = await AuthorModel.findOneAndUpdate({ _id: authorId, deletedAt: null }, { imageUrl: imageUrl }, { new: true })
         if (!result) {
-            throw new customError.NotFoundError('author not found with id : ' + _id)
+            throw new customError.NotFoundError('author not found with id : ' + authorId)
         }
         res.status(200).json({
             message: 'successfully uploaded author image',
