@@ -26,6 +26,9 @@ const RES = {
     'ERROR_CONNECTING_TO_MONGODB': 'Error connecting to mongodb',
 
     'MONGO_DB_CONNECTED': 'MongoDB connected',
+
+    'AUTHOR_ID_IS_REQUIRED': 'Author id is required',
+    'IMAGE_IS_REQUIRED': 'Image is required'
 }
 
 module.exports = RES

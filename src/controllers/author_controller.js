@@ -96,6 +96,9 @@ const deleteAuthor = async (req, res, next) => {
 const uploadAuthorImage = async (req, res, next) => {
     const { authorId } = req.body
     try {
+        if (!authorId) {
+            throw new customError.BadRequestError(RES.AUTHOR_ID_IS_REQUIRED)
+        }
         const imageUrl = await imageHelper.generateUrlImage(req.file)
 
         const result = await AuthorModel.findOneAndUpdate({ _id: authorId, deletedAt: null }, { imageUrl: imageUrl }, { new: true })

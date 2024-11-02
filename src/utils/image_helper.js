@@ -15,7 +15,6 @@ const deleteImage = (filename) => {
 
 const generateUrlImage = async (req) => {
     const result = `uploads/${req.filename}`;
-
     return result;
 };
 
