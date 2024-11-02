@@ -1,12 +1,13 @@
+const RES = require('./resMessage')
 const mongoose = require('mongoose');
 
 const connectDB = async () => {
   try {
     const mongodbUri = process.env.MONGODB_URI
     await mongoose.connect(mongodbUri);
-    console.log('MongoDB connected');
+    console.log(RES.MONGO_DB_CONNECTED);
   } catch (error) {
-    console.error('Error connecting to MongoDB', error);
+    console.error(RES.ERROR_CONNECTING_TO_MONGODB, error);
     process.exit(1);
   }
 };

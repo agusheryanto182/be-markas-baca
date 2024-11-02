@@ -1,5 +1,6 @@
 const multer = require('multer');
 const generateUUID = require('../utils/generate_uuid');
+const RES = require('../config/resMessage');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -21,7 +22,7 @@ const fileFilter = (req, file, cb) => {
         //reject file
         cb(
             {
-                message: 'Unsupported file format',
+                message: RES.UNSUPPORT_FILE_FORMAT,
             },
             false
         );

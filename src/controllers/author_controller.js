@@ -1,24 +1,25 @@
 const { AuthorModel, validateAuthor } = require('../models/author_model')
 const customError = require('../errors')
 const imageHelper = require('../utils/image_helper')
+const RES = require('../config/resMessage')
 
 const createAuthor = async (req, res, next) => {
     const { error } = validateAuthor(req.body)
 
     try {
         if (error) {
-            throw new customError.BadRequestError('validation error : ' + error.message)
+            throw new customError.BadRequestError(RES.VALIDATION_ERROR + ': ' + error.message)
         }
 
         const author = new AuthorModel(req.body)
 
         const result = await author.save()
         if (!result) {
-            throw new customError.InternalServerError('something went wrong while creating author')
+            throw new customError.InternalServerError(RES.SOMETHING_WENT_WRONG_WHILE_CREATING)
         }
 
         res.status(201).json({
-            message: 'successfully created author',
+            message: RES.SUCCESSFULLY_CREATED,
             data: result
         })
     } catch (err) {
@@ -30,10 +31,10 @@ const getAuthors = async (req, res, next) => {
     try {
         const result = await AuthorModel.find({ deletedAt: null })
         if (!result) {
-            throw new customError.NotFoundError('author not found')
+            throw new customError.NotFoundError(RES.AUTHOR_NOT_FOUND)
         }
         res.status(200).json({
-            message: 'successfully fetched authors',
+            message: RES.SUCCESSFULLY_FETCHED,
             data: result
         })
     } catch (err) {
@@ -45,10 +46,10 @@ const getAuthorsById = async (req, res, next) => {
     try {
         const result = await AuthorModel.find({ _id: req.params.id, deletedAt: null })
         if (!result || result.length === 0) {
-            throw new customError.NotFoundError('author not found with id : ' + req.params.id)
+            throw new customError.NotFoundError(RES.AUTHOR_NOT_FOUND_WITH_ID + ': ' + req.params.id)
         }
         res.status(200).json({
-            message: 'successfully fetched authors',
+            message: RES.SUCCESSFULLY_FETCHED,
             data: result
         })
     } catch (err) {
@@ -61,15 +62,15 @@ const updateAuthor = async (req, res, next) => {
 
     try {
         if (error) {
-            throw new customError.BadRequestError('validation error : ' + error.message)
+            throw new customError.BadRequestError(RES.VALIDATION_ERROR + ': ' + error.message)
         }
 
         const result = await AuthorModel.findOneAndUpdate({ _id: req.params.id, deletedAt: null }, req.body, { new: true })
         if (!result) {
-            throw new customError.NotFoundError('author not found with id : ' + req.params.id)
+            throw new customError.NotFoundError(RES.AUTHOR_NOT_FOUND_WITH_ID + ': ' + req.params.id)
         }
         res.status(200).json({
-            message: 'successfully updated author',
+            message: RES.SUCCESSFULLY_UPDATED,
             data: result
         })
     } catch (err) {
@@ -81,10 +82,10 @@ const deleteAuthor = async (req, res, next) => {
     try {
         const result = await AuthorModel.findOneAndUpdate({ _id: req.params.id, deletedAt: null }, { deletedAt: new Date() }, { new: true })
         if (!result || result.length === 0) {
-            throw new customError.NotFoundError('author not found with id : ' + req.params.id)
+            throw new customError.NotFoundError(RES.AUTHOR_NOT_FOUND_WITH_ID + ': ' + req.params.id)
         }
         res.status(200).json({
-            message: 'successfully deleted author',
+            message: RES.SUCCESSFULLY_DELETED,
             data: result
         })
     } catch (err) {
@@ -99,10 +100,10 @@ const uploadAuthorImage = async (req, res, next) => {
 
         const result = await AuthorModel.findOneAndUpdate({ _id: authorId, deletedAt: null }, { imageUrl: imageUrl }, { new: true })
         if (!result) {
-            throw new customError.NotFoundError('author not found with id : ' + authorId)
+            throw new customError.NotFoundError(RES.AUTHOR_NOT_FOUND_WITH_ID + ': ' + authorId)
         }
         res.status(200).json({
-            message: 'successfully uploaded author image',
+            message: RES.SUCCESSFULLY_UPLOADED,
             data: result
         })
     } catch (err) {
