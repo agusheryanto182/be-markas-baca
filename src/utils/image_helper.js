@@ -1,20 +1,28 @@
 const fs = require('fs');
 const path = require('path');
+const customError = require('../errors');
+const RES = require('../config/resMessage');
 
-const deleteImage = (filename) => {
-    const filePath = path.join('public/', filename);
+const deleteImage = (filePath) => {
     fs.unlink(filePath, (err) => {
         if (err) {
             console.error(err);
             return;
         }
-        console.log(`Image deleted: ${filename}`);
     });
 };
 
 
-const generateUrlImage = async (req) => {
-    const result = `uploads/${req.filename}`;
+const generateUrlImage = async (destination, req, next) => {
+    let result = '';
+    if (destination) {
+        result = `uploads/${destination}/${req.filename}`;
+        if (!fs.existsSync(path.join(__dirname, `../../public/${result}`))) {
+            return next(new customError.InternalServerError(RES.SOMETHING_WENT_WRONG_WHILE_UPLOADING));
+        }
+    } else {
+        result = `uploads/${req.filename}`;
+    }
     return result;
 };
 

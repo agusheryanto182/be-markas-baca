@@ -9,5 +9,5 @@ module.exports = {
     BadRequestError,
     NotFoundError,
     InternalServerError,
-    ConflictError
+    ConflictError,
 }

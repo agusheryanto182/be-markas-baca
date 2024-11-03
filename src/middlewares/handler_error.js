@@ -1,8 +1,6 @@
 const { StatusCodes } = require("http-status-codes")
 const RES = require("../config/resMessage")
 const errorHandlerMiddleware = (err, req, res, next) => {
-    console.log(err.message);
-
     let customError = {
         statusCode: err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
         message: err.message || RES.SOMETHING_WENT_WRONG_TRY_AGAIN_LATER,

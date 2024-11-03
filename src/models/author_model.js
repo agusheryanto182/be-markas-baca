@@ -28,6 +28,8 @@ authorSchema.set('toJSON', {
     }
 });
 
+authorSchema.index({ deletedAt: 1 }, { partialFilterExpression: { deletedAt: null }, name: 'deletedAtNull' });
+
 module.exports = {
     AuthorModel,
     validateAuthor

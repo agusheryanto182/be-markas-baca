@@ -23,6 +23,8 @@ categorySchema.set('toJSON', {
     }
 })
 
+categorySchema.index({ deletedAt: 1 }, { partialFilterExpression: { deletedAt: null } }, "name", "deletedAtNull");
+
 const CategoryModel = mongoose.model("Category", categorySchema)
 module.exports = {
     CategoryModel,

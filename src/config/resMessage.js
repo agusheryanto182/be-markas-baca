@@ -11,6 +11,7 @@ const RES = {
     'SOMETHING_WENT_WRONG_TRY_AGAIN_LATER': 'Something went wrong try again later',
     'SOMETHING_WENT_WRONG_WHILE_CREATING': 'Something went wrong while creating',
     'SOMETHING_WENT_WRONG_WHILE_UPDATING': 'Something went wrong while updating',
+    'SOMETHING_WENT_WRONG_WHILE_UPLOADING': 'Something went wrong while uploading',
     'SOMETHING_WENT_WRONG_WHILE_FETCHING': 'Something went wrong while fetching',
     'SOMETHING_WENT_WRONG_WHILE_DELETING': 'Something went wrong while deleting',
 
@@ -28,7 +29,16 @@ const RES = {
     'MONGO_DB_CONNECTED': 'MongoDB connected',
 
     'AUTHOR_ID_IS_REQUIRED': 'Author id is required',
-    'IMAGE_IS_REQUIRED': 'Image is required'
+    'IMAGE_IS_REQUIRED': 'Image is required',
+
+    'BOOK_NOT_FOUND': 'Book not found',
+    'BOOK_NOT_FOUND_WITH_ID': 'Book not found with id',
+    'BOOK_ID_IS_REQUIRED': 'Book id is required',
+
+    'DUPLICATE_VALUE_ENTERED_FOR_ISBN': 'Duplicate value entered for ISBN',
+    'NO_CONTENT_UPDATED': 'No content updated',
+    'FILE_IS_NOT_EXIST': 'File is not exist',
+
 }
 
 module.exports = RES

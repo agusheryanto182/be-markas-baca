@@ -2,7 +2,25 @@ const multer = require('multer');
 const generateUUID = require('../utils/generate_uuid');
 const RES = require('../config/resMessage');
 
-const storage = multer.diskStorage({
+const bookStorage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/uploads/books/');
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname.split('.')[0] + '-' + generateUUID() + '.' + file.mimetype.split('/')[1]);
+    },
+});
+
+const authorStorage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/uploads/authors/');
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname.split('.')[0] + '-' + generateUUID() + '.' + file.mimetype.split('/')[1]);
+    },
+});
+
+const uploadStorage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, 'public/uploads/');
     },
@@ -28,14 +46,28 @@ const fileFilter = (req, file, cb) => {
         );
     }
 };
+const uploadMiddleware = (destination) => {
+    let storage;
+    switch (destination) {
+        case 'book':
+            storage = bookStorage;
+            break;
+        case 'author':
+            storage = authorStorage;
+            break;
+        default:
+            storage = uploadStorage;
+            break;
+    }
 
-const uploadMiddleware = multer({
-    storage,
-    limits: {
-        fileSize: 10000000,
-    },
-    fileFilter: fileFilter,
-});
+    return multer({
+        storage: storage,
+        limits: {
+            fileSize: 10000000,
+        },
+        fileFilter: fileFilter,
+    });
+};
 
 
 module.exports = uploadMiddleware;

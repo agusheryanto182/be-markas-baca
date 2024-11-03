@@ -99,7 +99,7 @@ const uploadAuthorImage = async (req, res, next) => {
         if (!authorId) {
             throw new customError.BadRequestError(RES.AUTHOR_ID_IS_REQUIRED)
         }
-        const imageUrl = await imageHelper.generateUrlImage(req.file)
+        const imageUrl = await imageHelper.generateUrlImage('authors', req.file)
 
         const result = await AuthorModel.findOneAndUpdate({ _id: authorId, deletedAt: null }, { imageUrl: imageUrl }, { new: true })
         if (!result) {
@@ -110,6 +110,7 @@ const uploadAuthorImage = async (req, res, next) => {
             data: result
         })
     } catch (err) {
+        imageHelper.deleteImage(req.file.path)
         next(err)
     }
 }
