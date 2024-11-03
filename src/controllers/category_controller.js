@@ -45,7 +45,7 @@ const getCategoryById = async (req, res, next) => {
     try {
         const result = await CategoryModel.find({ _id: req.params.id, deletedAt: null })
         if (!result || result.length === 0) {
-            throw new customError.NotFoundError(RES.CATEGORY_NOT_FOUND_WITH_ID + ': ' + req.params.id)
+            throw new customError.NotFoundError(RES.CATEGORY_NOT_FOUND)
         }
         res.status(200).json({
             message: RES.SUCCESSFULLY_FETCHED,
@@ -66,7 +66,7 @@ const updateCategory = async (req, res, next) => {
 
         const result = await CategoryModel.findOneAndUpdate({ _id: req.params.id, deletedAt: null }, req.body, { new: true })
         if (!result) {
-            throw new customError.NotFoundError(RES.CATEGORY_NOT_FOUND_WITH_ID + ': ' + req.params.id)
+            throw new customError.NotFoundError(RES.CATEGORY_NOT_FOUND)
         }
         res.status(200).json({
             message: RES.SUCCESSFULLY_UPDATED,
@@ -81,7 +81,7 @@ const deleteCategory = async (req, res, next) => {
     try {
         const result = await CategoryModel.findOneAndUpdate({ _id: req.params.id, deletedAt: null }, { deletedAt: new Date() }, { new: true })
         if (!result || result.length === 0) {
-            throw new customError.NotFoundError(RES.CATEGORY_NOT_FOUND_WITH_ID + ': ' + req.params.id)
+            throw new customError.NotFoundError(RES.CATEGORY_NOT_FOUND)
         }
         res.status(200).json({
             message: RES.SUCCESSFULLY_DELETED,

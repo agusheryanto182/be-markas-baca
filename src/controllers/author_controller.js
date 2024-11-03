@@ -46,7 +46,7 @@ const getAuthorsById = async (req, res, next) => {
     try {
         const result = await AuthorModel.find({ _id: req.params.id, deletedAt: null })
         if (!result || result.length === 0) {
-            throw new customError.NotFoundError(RES.AUTHOR_NOT_FOUND_WITH_ID + ': ' + req.params.id)
+            throw new customError.NotFoundError(RES.AUTHOR_NOT_FOUND)
         }
         res.status(200).json({
             message: RES.SUCCESSFULLY_FETCHED,
@@ -67,7 +67,7 @@ const updateAuthor = async (req, res, next) => {
 
         const result = await AuthorModel.findOneAndUpdate({ _id: req.params.id, deletedAt: null }, req.body, { new: true })
         if (!result) {
-            throw new customError.NotFoundError(RES.AUTHOR_NOT_FOUND_WITH_ID + ': ' + req.params.id)
+            throw new customError.NotFoundError(RES.AUTHOR_NOT_FOUND)
         }
         res.status(200).json({
             message: RES.SUCCESSFULLY_UPDATED,
@@ -82,7 +82,7 @@ const deleteAuthor = async (req, res, next) => {
     try {
         const result = await AuthorModel.findOneAndUpdate({ _id: req.params.id, deletedAt: null }, { deletedAt: new Date() }, { new: true })
         if (!result || result.length === 0) {
-            throw new customError.NotFoundError(RES.AUTHOR_NOT_FOUND_WITH_ID + ': ' + req.params.id)
+            throw new customError.NotFoundError(RES.AUTHOR_NOT_FOUND)
         }
         res.status(200).json({
             message: RES.SUCCESSFULLY_DELETED,
@@ -103,7 +103,7 @@ const uploadAuthorImage = async (req, res, next) => {
 
         const result = await AuthorModel.findOneAndUpdate({ _id: authorId, deletedAt: null }, { imageUrl: imageUrl }, { new: true })
         if (!result) {
-            throw new customError.NotFoundError(RES.AUTHOR_NOT_FOUND_WITH_ID + ': ' + authorId)
+            throw new customError.NotFoundError(RES.AUTHOR_NOT_FOUND)
         }
         res.status(200).json({
             message: RES.SUCCESSFULLY_UPLOADED,

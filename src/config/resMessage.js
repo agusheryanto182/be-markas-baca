@@ -17,9 +17,6 @@ const RES = {
 
     'AUTHOR_NOT_FOUND': 'Author not found',
     'CATEGORY_NOT_FOUND': 'Category not found',
-    'CATEGORY_NOT_FOUND_WITH_ID': 'Category not found with id',
-    'AUTHOR_NOT_FOUND_WITH_ID': 'Author not found with id',
-    'NO_ITEM_FOUND_WITH_ID': 'No item found with id',
     'DUPLICATE_VALUE_ENTERED_FOR': 'Duplicate value entered for',
     'UNSUPPORT_FILE_FORMAT': 'Unsupport file format',
     'ROUTE_DOES_NOT_EXIST': 'Route does not exist',
@@ -32,12 +29,14 @@ const RES = {
     'IMAGE_IS_REQUIRED': 'Image is required',
 
     'BOOK_NOT_FOUND': 'Book not found',
-    'BOOK_NOT_FOUND_WITH_ID': 'Book not found with id',
     'BOOK_ID_IS_REQUIRED': 'Book id is required',
 
     'DUPLICATE_VALUE_ENTERED_FOR_ISBN': 'Duplicate value entered for ISBN',
     'NO_CONTENT_UPDATED': 'No content updated',
     'FILE_IS_NOT_EXIST': 'File is not exist',
+
+    'BORROWER_NOT_FOUND': 'Borrower not found',
+    'BORROWER_ID_IS_REQUIRED': 'Borrower id is required',
 
 }
 

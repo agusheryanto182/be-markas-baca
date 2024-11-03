@@ -3,6 +3,7 @@ const testRoutes = require("./test_routes")
 const authorController = require("../controllers/author_controller")
 const categoryController = require("../controllers/category_controller")
 const bookController = require("../controllers/book_controller")
+const borrowerController = require("../controllers/borrower_controller")
 const multerHandler = require("../middlewares/handler_multer")
 
 const routes = express.Router()
@@ -14,7 +15,6 @@ routes.get("/author/:id", authorController.getAuthorsById)
 routes.put("/author/:id", authorController.updateAuthor)
 routes.delete("/author/:id", authorController.deleteAuthor)
 routes.post("/author/upload", multerHandler('author'), authorController.uploadAuthorImage)
-
 
 // category routes 
 routes.post("/category", categoryController.createCategory)
@@ -30,6 +30,13 @@ routes.get("/book/:id", bookController.getBookById)
 routes.put("/book/:id", bookController.updateBook)
 routes.delete("/book/:id", bookController.deleteBook)
 routes.post("/book/upload", multerHandler('book'), bookController.uploadBookImage)
+
+// borrower routes 
+routes.post("/borrower", borrowerController.createBorrower)
+routes.get("/borrowers", borrowerController.getBorrowers)
+routes.get("/borrower/:id", borrowerController.getBorrowerById)
+routes.put("/borrower/:id", borrowerController.updateBorrower)
+routes.delete("/borrower/:id", borrowerController.deleteBorrower)
 
 // test routes
 routes.use(testRoutes)

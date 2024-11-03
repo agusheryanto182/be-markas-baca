@@ -46,7 +46,7 @@ const getBookById = async (req, res, next) => {
     try {
         const result = await BookModel.find({ _id: req.params.id, deletedAt: null })
         if (!result || result.length === 0) {
-            throw new customError.NotFoundError(RES.BOOK_NOT_FOUND_WITH_ID + ': ' + req.params.id)
+            throw new customError.NotFoundError(RES.BOOK_NOT_FOUND)
         }
         res.status(200).json({
             message: RES.SUCCESSFULLY_FETCHED,
@@ -61,7 +61,7 @@ const deleteBook = async (req, res, next) => {
     try {
         const result = await BookModel.findOneAndUpdate({ _id: req.params.id, deletedAt: null }, { deletedAt: new Date() }, { new: true })
         if (!result || result.length === 0) {
-            throw new customError.NotFoundError(RES.BOOK_NOT_FOUND_WITH_ID + ': ' + req.params.id)
+            throw new customError.NotFoundError(RES.BOOK_NOT_FOUND)
         }
         res.status(200).json({
             message: RES.SUCCESSFULLY_DELETED,
@@ -86,7 +86,7 @@ const updateBook = async (req, res, next) => {
 
         const result = await BookModel.findOneAndUpdate({ _id: req.params.id, deletedAt: null }, req.body, { new: true })
         if (!result) {
-            throw new customError.NotFoundError(RES.BOOK_NOT_FOUND_WITH_ID + ': ' + req.params.id)
+            throw new customError.NotFoundError(RES.BOOK_NOT_FOUND)
         }
         res.status(200).json({
             message: RES.SUCCESSFULLY_UPDATED,
@@ -106,7 +106,7 @@ const uploadBookImage = async (req, res, next) => {
         const imageUrl = await imageHelper.generateUrlImage('books', req.file, next)
         const result = await BookModel.findOneAndUpdate({ _id: bookId, deletedAt: null }, { imageUrl }, { new: true })
         if (!result) {
-            throw new customError.NotFoundError(RES.BOOK_NOT_FOUND_WITH_ID + ': ' + bookId)
+            throw new customError.NotFoundError(RES.BOOK_NOT_FOUND)
         }
         res.status(200).json({
             message: RES.SUCCESSFULLY_UPLOADED,
