@@ -62,7 +62,6 @@ const deleteBorrower = async (req, res, next) => {
         if (!result || result.length === 0) {
             throw new customError.NotFoundError(RES.BORROWER_NOT_FOUND)
         }
-        console.log(result)
         res.status(200).json({
             message: RES.SUCCESSFULLY_DELETED,
             data: result

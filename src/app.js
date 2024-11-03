@@ -5,6 +5,7 @@ const app = express()
 const notFoundMiddleware = require('./middlewares/not_found')
 const handleErrorMiddleware = require('./middlewares/handler_error')
 const bodyParser = require('body-parser')
+const cors = require('cors')
 
 require('dotenv').config()
 
@@ -12,9 +13,13 @@ const port = process.env.PORT
 
 connectDB()
 
+app.use(cors())
+
 app.use(express.json());
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use('/api/v1/uploads', express.static('public/uploads'));
 
 app.use("/api/v1", routes)
