@@ -1,4 +1,4 @@
-const { BookModel, validateBook, customValidateBook } = require('../models/book_model')
+const { BookModel, validateBook } = require('../models/book_model')
 const customError = require('../errors')
 const imageHelper = require('../utils/image_helper')
 const RES = require('../config/resMessage')
@@ -73,7 +73,8 @@ const deleteBook = async (req, res, next) => {
 }
 
 const updateBook = async (req, res, next) => {
-    const { error } = customValidateBook(req.body)
+    const { error } = validateBook(req.body)
+    const inputStock = req.body.stock
 
     try {
         if (error) {
@@ -82,6 +83,27 @@ const updateBook = async (req, res, next) => {
 
         if (!req.body || Object.keys(req.body).length === 0) {
             return res.status(204).send();
+        }
+
+        if (inputStock) {
+            let validateStock = [];
+            const currStock = await BookModel.findOne({ _id: req.params.id, deletedAt: null })
+
+            for (let i = 0; i < currStock.stock.length; i++) {
+                if (currStock.stock[i].isbn !== inputStock[i].isbn) {
+                    validateStock.push(inputStock[i])
+                }
+            }
+
+            if (validateStock.length > 0) {
+                const isFound = await BookModel.findOne({
+                    "stock.isbn": validateStock[0].isbn,
+                    deletedAt: null
+                });
+                if (isFound) {
+                    throw new customError.ConflictError(RES.DUPLICATE_VALUE_ENTERED_FOR_ISBN)
+                }
+            }
         }
 
         const result = await BookModel.findOneAndUpdate({ _id: req.params.id, deletedAt: null }, req.body, { new: true })

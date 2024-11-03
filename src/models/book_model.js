@@ -15,6 +15,7 @@ const bookSchema = new Schema({
     stock: [
         {
             isbn: { type: String, required: true, unique: true },
+            quantity: { type: Number, required: true, default: 1 },
             status: { type: Boolean, required: true, default: true }
         }
     ],
@@ -31,9 +32,10 @@ const validateBook = (data) => {
         stock: Joi.array().items(
             Joi.object({
                 isbn: Joi.string().required(),
-                status: Joi.boolean().required()
+                status: Joi.boolean().required(),
+                quantity: Joi.number().required()
             })
-        ),
+        ).required(),
         categories: Joi.array().items(
             Joi.object({
                 _id: Joi.string().required()
@@ -43,35 +45,36 @@ const validateBook = (data) => {
     return schema.validate(data);
 };
 
-const listValidateOfBook = {
-    authorId: Joi.string().required(),
-    title: Joi.string().max(255).required(),
-    summary: Joi.string().max(255).required(),
-    description: Joi.string().max(1000).required(),
-    stock: Joi.array().items(
-        Joi.object({
-            isbn: Joi.string().required(),
-            status: Joi.boolean().required()
-        })
-    ),
-    categories: Joi.array().items(
-        Joi.object({
-            _id: Joi.string().required()
-        })
-    )
-}
+// const listValidateOfBook = {
+//     authorId: Joi.string().required(),
+//     title: Joi.string().max(255).required(),
+//     summary: Joi.string().max(255).required(),
+//     description: Joi.string().max(1000).required(),
+//     stock: Joi.array().items(
+//         Joi.object({
+//             isbn: Joi.string().required(),
+//             status: Joi.boolean().required(),
+//             quantity: Joi.number().required()
+//         })
+//     ),
+//     categories: Joi.array().items(
+//         Joi.object({
+//             _id: Joi.string().required()
+//         })
+//     )
+// }
 
-const customValidateBook = (data) => {
-    const dynamicSchema = Object.keys(data).reduce((schema, key) => {
-        if (listValidateOfBook[key]) {
-            schema[key] = listValidateOfBook[key];
-        }
+// const customValidateBook = (data) => {
+//     const dynamicSchema = Object.keys(data).reduce((schema, key) => {
+//         if (listValidateOfBook[key]) {
+//             schema[key] = listValidateOfBook[key];
+//         }
 
-        return schema;
-    }, {});
-    const schema = Joi.object(dynamicSchema);
-    return schema.validate(data);
-}
+//         return schema;
+//     }, {});
+//     const schema = Joi.object(dynamicSchema);
+//     return schema.validate(data);
+// }
 
 
 bookSchema.set('toJSON', {
@@ -88,7 +91,6 @@ bookSchema.set('toJSON', {
 const validateStockAndCategories = async function (next) {
     try {
         if (this.stock) {
-            console.log('test1')
             const isbnArray = this.stock.map(item => item.isbn);
             const isUnique = isbnArray.length === new Set(isbnArray).size;
 
@@ -126,9 +128,9 @@ bookSchema.pre("save", validateStockAndCategories);
 bookSchema.pre("findOneAndUpdate", async function (next) {
     const updateData = this.getUpdate();
 
-    if (updateData.stock) {
-        this.stock = updateData.stock;
-    }
+    // if (updateData.stock) {
+    //     this.stock = updateData.stock;
+    // }
 
     if (updateData.categories) {
         this.categories = updateData.categories;
@@ -148,5 +150,5 @@ const BookModel = mongoose.model("Book", bookSchema);
 module.exports = {
     BookModel,
     validateBook,
-    customValidateBook
+    // customValidateBook
 }
