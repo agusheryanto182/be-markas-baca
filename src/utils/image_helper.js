@@ -18,7 +18,7 @@ const generateUrlImage = async (destination, req, next) => {
     if (destination) {
         result = `uploads/${destination}/${req.filename}`;
         if (!fs.existsSync(path.join(__dirname, `../../public/${result}`))) {
-            return next(new customError.InternalServerError(RES.SOMETHING_WENT_WRONG_WHILE_UPLOADING));
+            return next(new customError.InternalServerError(RES.INTERNAL_SERVER_ERROR, RES.SOMETHING_WENT_WRONG_WHILE_UPLOADING));
         }
     } else {
         result = `uploads/${req.filename}`;

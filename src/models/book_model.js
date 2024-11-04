@@ -12,13 +12,7 @@ const bookSchema = new Schema({
     summary: { type: String, maxlength: 255, required: true },
     description: { type: String, maxlength: 1000, required: true },
     imageUrl: { type: String, default: null },
-    stock: [
-        {
-            isbn: { type: String, required: true, unique: true },
-            quantity: { type: Number, required: true, default: 1 },
-            status: { type: Boolean, required: true, default: true }
-        }
-    ],
+    bookEditions: [{ type: Schema.Types.ObjectId, ref: "BookEdition" }],
     categories: [{ type: Schema.Types.ObjectId, ref: "Category" }],
     deletedAt: { type: Date, default: null }
 }, { timestamps: true });
@@ -29,11 +23,11 @@ const validateBook = (data) => {
         title: Joi.string().max(255).required(),
         summary: Joi.string().max(255).required(),
         description: Joi.string().max(1000).required(),
-        stock: Joi.array().items(
+        bookEditions: Joi.array().items(
             Joi.object({
                 isbn: Joi.string().required(),
-                status: Joi.boolean().required(),
-                quantity: Joi.number().required()
+                quantity: Joi.number().required(),
+                isAvailable: Joi.boolean().required()
             })
         ).required(),
         categories: Joi.array().items(
@@ -90,19 +84,19 @@ bookSchema.set('toJSON', {
 
 const validateStockAndCategories = async function (next) {
     try {
-        if (this.stock) {
-            const isbnArray = this.stock.map(item => item.isbn);
-            const isUnique = isbnArray.length === new Set(isbnArray).size;
+        // if (this.stock) {
+        //     const isbnArray = this.stock.map(item => item.isbn);
+        //     const isUnique = isbnArray.length === new Set(isbnArray).size;
 
-            if (!isUnique) {
-                return next(new customError.ConflictError(RES.DUPLICATE_VALUE_ENTERED_FOR_ISBN));
-            }
+        //     if (!isUnique) {
+        //         return next(new customError.ConflictError(RES.DUPLICATE_VALUE_ENTERED_FOR_ISBN));
+        //     }
 
-            const existingBooks = await BookModel.find({ 'stock.isbn': { $in: isbnArray }, _id: { $ne: this._id } });
-            if (existingBooks.length > 0) {
-                return next(new customError.ConflictError(RES.DUPLICATE_VALUE_ENTERED_FOR_ISBN));
-            }
-        }
+        //     const existingBooks = await BookModel.find({ 'stock.isbn': { $in: isbnArray }, _id: { $ne: this._id } });
+        //     if (existingBooks.length > 0) {
+        //         return next(new customError.ConflictError(RES.DUPLICATE_VALUE_ENTERED_FOR_ISBN));
+        //     }
+        // }
 
         if (this.categories) {
             const categoriesExist = await CategoryModel.find({ _id: { $in: this.categories } }).select('_id');

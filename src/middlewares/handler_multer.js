@@ -7,10 +7,10 @@ const multerHandler = (destination) => {
         if (req.headers['content-type'] && req.headers['content-type'].includes('multipart/form-data')) {
             return upload(destination).single('image')(req, res, (err) => {
                 if (err) {
-                    return next(new customError.InternalServerError(RES.SOMETHING_WENT_WRONG + ': ' + err.message));
+                    return next(new customError.InternalServerError(RES.INTERNAL_SERVER_ERROR, RES.SOMETHING_WENT_WRONG + ': ' + err.message));
                 }
                 if (!req.file) {
-                    return next(new customError.BadRequestError(RES.IMAGE_IS_REQUIRED));
+                    return next(new customError.BadRequestError(RES.BAD_REQUEST, RES.IMAGE_IS_REQUIRED));
                 }
                 next();
             });

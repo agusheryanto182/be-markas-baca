@@ -1,43 +1,57 @@
 const RES = {
-    'SUCCESSFULLY_DELETED': 'Successfully Deleted',
-    'SUCCESSFULLY_CREATED': 'Successfully Created',
-    'SUCCESSFULLY_UPDATED': 'Successfully Updated',
-    'SUCCESSFULLY_FETCHED': 'Successfully Fetched',
-    'SUCCESSFULLY_UPLOADED': 'Successfully Uploaded',
+    'SUCCESSFULLY_DELETED': 'successfully deleted',
+    'SUCCESSFULLY_CREATED': 'successfully created',
+    'SUCCESSFULLY_UPDATED': 'successfully updated',
+    'SUCCESSFULLY_FETCHED': 'successfully fetched',
+    'SUCCESSFULLY_UPLOADED': 'successfully uploaded',
 
-    'VALIDATION_ERROR': 'Validation Error',
+    'SUCCESS': 'success',
+    'ERROR': 'error',
+    'FAILED': 'failed',
+    'FAILED_TO_GET_DATA': 'failed to get data',
 
-    'SOMETHING_WENT_WRONG': 'Something went wrong',
-    'SOMETHING_WENT_WRONG_TRY_AGAIN_LATER': 'Something went wrong try again later',
-    'SOMETHING_WENT_WRONG_WHILE_CREATING': 'Something went wrong while creating',
-    'SOMETHING_WENT_WRONG_WHILE_UPDATING': 'Something went wrong while updating',
-    'SOMETHING_WENT_WRONG_WHILE_UPLOADING': 'Something went wrong while uploading',
-    'SOMETHING_WENT_WRONG_WHILE_FETCHING': 'Something went wrong while fetching',
-    'SOMETHING_WENT_WRONG_WHILE_DELETING': 'Something went wrong while deleting',
+    'VALIDATION_ERROR': 'validation error',
 
-    'AUTHOR_NOT_FOUND': 'Author not found',
-    'CATEGORY_NOT_FOUND': 'Category not found',
-    'DUPLICATE_VALUE_ENTERED_FOR': 'Duplicate value entered for',
-    'UNSUPPORT_FILE_FORMAT': 'Unsupport file format',
-    'ROUTE_DOES_NOT_EXIST': 'Route does not exist',
+    'SOMETHING_WENT_WRONG': 'something went wrong',
+    'SOMETHING_WENT_WRONG_TRY_AGAIN_LATER': 'something went wrong try again later',
+    'SOMETHING_WENT_WRONG_WHILE_CREATING': 'something went wrong while creating',
+    'SOMETHING_WENT_WRONG_WHILE_UPDATING': 'something went wrong while updating',
+    'SOMETHING_WENT_WRONG_WHILE_UPLOADING': 'something went wrong while uploading',
+    'SOMETHING_WENT_WRONG_WHILE_FETCHING': 'something went wrong while fetching',
+    'SOMETHING_WENT_WRONG_WHILE_DELETING': 'something went wrong while deleting',
 
-    'ERROR_CONNECTING_TO_MONGODB': 'Error connecting to mongodb',
+    'AUTHOR_NOT_FOUND': 'author not found',
+    'CATEGORY_NOT_FOUND': 'category not found',
+    'DUPLICATE_VALUE_ENTERED_FOR': 'duplicate value entered for',
+    'UNSUPPORT_FILE_FORMAT': 'unsupport file format',
+    'ROUTE_DOES_NOT_EXIST': 'route does not exist',
 
-    'MONGO_DB_CONNECTED': 'MongoDB connected',
+    'ERROR_CONNECTING_TO_MONGODB': 'error connecting to mongodb',
 
-    'AUTHOR_ID_IS_REQUIRED': 'Author id is required',
-    'IMAGE_IS_REQUIRED': 'Image is required',
+    'MONGO_DB_CONNECTED': 'mongodb connected',
 
-    'BOOK_NOT_FOUND': 'Book not found',
-    'BOOK_ID_IS_REQUIRED': 'Book id is required',
+    'AUTHOR_ID_IS_REQUIRED': 'author id is required',
+    'IMAGE_IS_REQUIRED': 'image is required',
 
-    'DUPLICATE_VALUE_ENTERED_FOR_ISBN': 'Duplicate value entered for ISBN',
-    'NO_CONTENT_UPDATED': 'No content updated',
-    'FILE_IS_NOT_EXIST': 'File is not exist',
+    'BOOK_NOT_FOUND': 'book not found',
+    'BOOK_ID_IS_REQUIRED': 'book id is required',
 
-    'BORROWER_NOT_FOUND': 'Borrower not found',
-    'BORROWER_ID_IS_REQUIRED': 'Borrower id is required',
+    'DUPLICATE_VALUE_ENTERED_FOR_ISBN': 'duplicate value entered for isbn',
+    'NO_CONTENT_UPDATED': 'no content updated',
+    'FILE_IS_NOT_EXIST': 'file is not exist',
 
+    'BORROWER_NOT_FOUND': 'borrower not found',
+    'BORROWER_ID_IS_REQUIRED': 'borrower id is required',
+    "STOCK_ITEM_MUST_HAVE_ISBN_QUANTITY_AND_ISAVAILABLE": 'stock item must have isbn, quantity, and isavailable',
+    "YOU_CANNOT_DELETE_BOOK_EDITIONS_FROM_BOOK": 'you cannot delete book editions from book',
+
+    'INTERNAL_SERVER_ERROR': 'internal server error',
+    'BAD_REQUEST': 'bad request',
+    'CONFLICT': 'conflict',
+    'NOT_FOUND': 'not found',
+
+    'CATEGORY_ID_IS_REQUIRED': 'category id is required',
+    'ITEM_NOT_FOUND': 'item not found',
 }
 
-module.exports = RES
+module.exports = RES;
