@@ -4,6 +4,7 @@ const authorRoutes = require("./author_routes")
 const categoryRoutes = require("./category_routes")
 const bookRoutes = require("./book_routes")
 const borrowerRoutes = require("./borrower_routes")
+const borrowedRoutes = require("./borrowed_book_routes")
 
 const routes = express.Router()
 
@@ -18,6 +19,9 @@ routes.use(bookRoutes)
 
 // borrower routes 
 routes.use(borrowerRoutes)
+
+// borrowed book routes
+routes.use(borrowedRoutes)
 
 // test routes
 routes.use(testRoutes)

@@ -3,14 +3,12 @@ const Schema = mongoose.Schema
 const Joi = require("joi")
 
 const bookStockLogSchema = new Schema({
-    bookId: { type: Schema.Types.ObjectId, ref: "Book", required: true },
-    borrowerId: { type: Schema.Types.ObjectId, ref: "Borrower", required: true },
-    action: {
+    borrowedBookId: { type: Schema.Types.ObjectId, ref: "BorrowedBook", required: true },
+    status: {
         type: String,
         enum: ['borrowed', 'returned'],
         required: true
     },
-    quantity: { type: Number, required: true },
 }, { timestamps: true });
 
 

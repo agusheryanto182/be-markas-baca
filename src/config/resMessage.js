@@ -19,6 +19,7 @@ const RES = {
     'SOMETHING_WENT_WRONG_WHILE_UPLOADING': 'something went wrong while uploading',
     'SOMETHING_WENT_WRONG_WHILE_FETCHING': 'something went wrong while fetching',
     'SOMETHING_WENT_WRONG_WHILE_DELETING': 'something went wrong while deleting',
+    "SOMETHING_WENT_WRONG_WHILE_RETURNING": "something went wrong while returning",
 
     'AUTHOR_NOT_FOUND': 'author not found',
     'CATEGORY_NOT_FOUND': 'category not found',
@@ -52,6 +53,16 @@ const RES = {
 
     'CATEGORY_ID_IS_REQUIRED': 'category id is required',
     'ITEM_NOT_FOUND': 'item not found',
+    "BOOK_EDITION_NOT_FOUND": "book edition not found",
+    "QUANTITY_IS_NOT_ENOUGH": "quantity is not enough",
+    "BOOK_EDITION_IS_NOT_AVAILABLE": "book edition is not available",
+    "EXPECTED_RETURN_DATE_IS_PASSED": "expected return date is passed",
+    "EXPECTED_RETURN_DATE_TOO_SOON": "expected return date too soon, min 1 day",
+    "EXPECTED_RETURN_DATE_IS_TOO_FUTURE": "expected return date is too future, max 30 days",
+    "BORROWED_BOOK_ID_IS_REQUIRED": "borrowed book id is required",
+    "BORROWED_BOOK_NOT_FOUND": "borrowed book not found",
+    "SUCCESSFULLY_RETURNED": "successfully returned",
+    "BORROWED_BOOK_ALREADY_RETURNED": "borrowed book already returned",
 }
 
 module.exports = RES;

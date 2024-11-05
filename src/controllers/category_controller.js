@@ -97,27 +97,19 @@ const updateCategory = async (req, res, next) => {
 }
 
 const deleteCategory = async (req, res, next) => {
-    const session = await mongoose.startSession();
     const categoryId = req.params.id
     try {
-        session.startTransaction();
-
-        const result = await CategoryModel.findOneAndUpdate({ _id: categoryId, deletedAt: null }, { deletedAt: new Date() }, { new: true, session })
+        const result = await CategoryModel.findOneAndUpdate({ _id: categoryId, deletedAt: null }, { deletedAt: new Date() }, { new: true })
         if (!result || result.length === 0) {
             throw new customError.NotFoundError(RES.NOT_FOUND, RES.CATEGORY_NOT_FOUND)
         }
 
-        const deleteCategoryInBooks = await BookModel.updateMany(
+        await BookModel.updateMany(
             { categories: categoryId },
             { $pull: { categories: categoryId } },
-            { session, new: true }
+            { new: true }
         );
 
-        if (!deleteCategoryInBooks) {
-            throw new customError.NotFoundError(RES.NOT_FOUND, RES.CATEGORY_NOT_FOUND_IN_BOOKS);
-        }
-
-        await session.commitTransaction();
         res.status(200).json({
             status: RES.SUCCESS,
             message: RES.SUCCESSFULLY_DELETED,
@@ -126,10 +118,7 @@ const deleteCategory = async (req, res, next) => {
             }
         })
     } catch (err) {
-        await session.abortTransaction();
         next(err)
-    } finally {
-        session.endSession();
     }
 }
 

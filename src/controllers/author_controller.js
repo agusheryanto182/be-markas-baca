@@ -93,20 +93,14 @@ const updateAuthor = async (req, res, next) => {
 }
 
 const deleteAuthor = async (req, res, next) => {
-    const session = await mongoose.startSession();
     try {
-        session.startTransaction();
-        const result = await AuthorModel.findOneAndUpdate({ _id: req.params.id, deletedAt: null }, { deletedAt: new Date() }, { new: true, session })
+        const result = await AuthorModel.findOneAndUpdate({ _id: req.params.id, deletedAt: null }, { deletedAt: new Date() }, { new: true })
         if (!result || result.length === 0) {
             throw new customError.NotFoundError(RES.NOT_FOUND, RES.AUTHOR_NOT_FOUND)
         }
 
-        const deleteAuthorInBooks = await BookModel.findOneAndUpdate({ authorId: req.params.id }, { authorId: null }, { session })
-        if (!deleteAuthorInBooks) {
-            throw new customError.InternalServerError(RES.INTERNAL_SERVER_ERROR, RES.SOMETHING_WENT_WRONG_WHILE_DELETING)
-        }
+        await BookModel.findOneAndUpdate({ authorId: req.params.id }, { authorId: null })
 
-        await session.commitTransaction();
         res.status(200).json({
             status: RES.SUCCESS,
             message: RES.SUCCESSFULLY_DELETED,
@@ -115,10 +109,7 @@ const deleteAuthor = async (req, res, next) => {
             }
         })
     } catch (err) {
-        await session.abortTransaction();
         next(err)
-    } finally {
-        session.endSession();
     }
 }
 

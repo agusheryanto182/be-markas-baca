@@ -82,33 +82,19 @@ bookSchema.set('toJSON', {
     }
 })
 
-const validateStockAndCategories = async function (next) {
+const validateAuthorAndCategories = async function (next) {
     try {
-        // if (this.stock) {
-        //     const isbnArray = this.stock.map(item => item.isbn);
-        //     const isUnique = isbnArray.length === new Set(isbnArray).size;
-
-        //     if (!isUnique) {
-        //         return next(new customError.ConflictError(RES.DUPLICATE_VALUE_ENTERED_FOR_ISBN));
-        //     }
-
-        //     const existingBooks = await BookModel.find({ 'stock.isbn': { $in: isbnArray }, _id: { $ne: this._id } });
-        //     if (existingBooks.length > 0) {
-        //         return next(new customError.ConflictError(RES.DUPLICATE_VALUE_ENTERED_FOR_ISBN));
-        //     }
-        // }
-
         if (this.categories) {
-            const categoriesExist = await CategoryModel.find({ _id: { $in: this.categories } }).select('_id');
+            const categoriesExist = await CategoryModel.find({ _id: { $in: this.categories }, deletedAt: null }).select('_id');
             if (categoriesExist.length !== this.categories.length) {
-                return next(new customError.NotFoundError(RES.CATEGORY_NOT_FOUND));
+                return next(new customError.NotFoundError(RES.NOT_FOUND, RES.CATEGORY_NOT_FOUND));
             }
         }
 
         if (this.authorId) {
-            const authorExists = await AuthorModel.findById(this.authorId).select('_id');
+            const authorExists = await AuthorModel.findOne({ _id: this.authorId, deletedAt: null }).select('_id');
             if (!authorExists) {
-                return next(new customError.NotFoundError(RES.AUTHOR_NOT_FOUND));
+                return next(new customError.NotFoundError(RES.NOT_FOUND, RES.AUTHOR_NOT_FOUND));
             }
         }
         next();
@@ -117,14 +103,10 @@ const validateStockAndCategories = async function (next) {
     }
 };
 
-bookSchema.pre("save", validateStockAndCategories);
+bookSchema.pre("save", validateAuthorAndCategories);
 
 bookSchema.pre("findOneAndUpdate", async function (next) {
     const updateData = this.getUpdate();
-
-    // if (updateData.stock) {
-    //     this.stock = updateData.stock;
-    // }
 
     if (updateData.categories) {
         this.categories = updateData.categories;
@@ -134,7 +116,7 @@ bookSchema.pre("findOneAndUpdate", async function (next) {
         this.authorId = updateData.authorId;
     }
 
-    await validateStockAndCategories.call(this, next);
+    await validateAuthorAndCategories.call(this, next);
 });
 
 bookSchema.index({ deletedAt: 1 }, { partialFilterExpression: { deletedAt: null } }, "name", "deletedAtNull");
